@@ -210,7 +210,7 @@ ATtinyType				gATtinyType;
 uint16_t				gTPIPointer;
 
 bool tpi_memory_read( uint8_t &data, bool postIncrement = true, bool updateGTPIPointer = true );
-boolean tpi_memory_write( uint8_t data, bool postIncrement = true, bool updateGTPIPointer = true );
+bool tpi_memory_write( uint8_t data, bool postIncrement = true, bool updateGTPIPointer = true );
 
 
 uint16_t get_free_memory() {
@@ -459,7 +459,7 @@ uint8_t unhex( uint8_t high, uint8_t low ) {
 
 // ATtiny TPI (Tiny Programming Interface) (§14 pp. 95+)
 
-boolean tpi_chip_erase() {
+bool tpi_chip_erase() {
 	tpi_enable();
 
 	// §15.4.3.1
@@ -681,7 +681,7 @@ done:
 	return gATtinyType != kATtinyUnknown;
 }
 
-boolean tpi_io_read( uint8_t address, uint8_t &data ) {
+bool tpi_io_read( uint8_t address, uint8_t &data ) {
 	// §14.5.4 SIN 0b0aa1aaaa replace a with 6 address bits
 	tpi_serial_write( SIN | ( address & 0x30 ) << 1 | address & 0x0f );
 
@@ -707,7 +707,7 @@ bool tpi_memory_read( uint8_t &data, bool postIncrement, bool updateGTPIPointer 
 }
 
 // write memory indirectly.  must call tpi_set_pointer() first
-boolean tpi_memory_write( uint8_t data, bool postIncrement, bool updateGTPIPointer ) {
+bool tpi_memory_write( uint8_t data, bool postIncrement, bool updateGTPIPointer ) {
 	tpi_serial_write( postIncrement ? SST_postIncrement : SST );
 	tpi_serial_write( data );
 
