@@ -5,6 +5,7 @@ An Arduino sketch to program an ATtiny10.  A rewrite of code by feynman17, Keri 
 
 Comments from the source:
 
+```html
 // ATtiny10Programmer.ino
 //
 // Brian Doyle, brian@balance-software.com, 2014.09.27
@@ -125,4 +126,4 @@ Comments from the source:
 // ATtiny10 datasheet:
 //
 // http://www.atmel.com/Images/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet.pdf
-
+```
