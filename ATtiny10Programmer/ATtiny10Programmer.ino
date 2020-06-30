@@ -76,11 +76,11 @@
 //    (HVP)   D9 |---       | 6 (RESET#/PB3)
 //               |          |
 //
-//	-[R]-  =  2.2kΩ resistor
+//  -[R]-  =  2.2kΩ resistor
 //
-//	2011.12.08:		Original image by pcm1723
+//  2011.12.08:     Original image by pcm1723
 //
-//	2014.09.26 bd:  The pcm1723 image had resistors on D10, D12, and D13.
+//  2014.09.26 bd:  The pcm1723 image had resistors on D10, D12, and D13.
 //                  Both the Arduino Nano and the ATtiny10 operate at 5V and
 //                  are rated at 40mA per pin (ATtiny reference §16.1 p. 115,
 //                  Nano via online) so I'm getting rid of all the resistors
@@ -125,162 +125,162 @@
 #include "pins_arduino.h"
 
 enum ArduinoPortBBits {
-	kPortBSS			=	1 << 2,
-	kPortBMOSI			=	1 << 3,
-	kPortBMISO			=	1 << 4,
-	kPortBSCK			=	1 << 5,
+    kPortBSS            =   1 << 2,
+    kPortBMOSI          =   1 << 3,
+    kPortBMISO          =   1 << 4,
+    kPortBSCK           =   1 << 5,
 };
 
 enum ATtiny4_5_9_10AddressSpace {
-	// §5.2
-	kTiny4IO			=	0x0000,	// 0x0000 - 0x003f
-	kTiny4SRAM			=	0x0040,	// 0x0040 - 0x005f
-	kTiny4Reserved0		=	0x0060,	// 0x0060 - 0x3eff
-	kTiny4NVMLock		=	0x3f00,	// 0x3f00 - 0x3f01
-	kTiny4Reserved1		=	0x3f02,	// 0x3f02 - 0x3f3f
-	kTiny4Configuration	=	0x3f40, // 0x3f40 - 0x3f41
-	kTiny4Reserved2		=	0x3f42,	// 0x3f42 - 0x3f7f
-	kTiny4Calibration	=	0x3f80,	// 0x3f80 - 0x3f81
-	kTiny4Reserved3		=	0x3f82,	// 0x3f82 - 0x3fbf
-	kTiny4DeviceId		=	0x3fc0, // 0x3fc0 - 0x3fc3
-	kTiny4Reserved4		=	0x3fc4,	// 0x3fc4 - 0x3fff
-	kTiny4Flash			=	0x4000, // 0x4000 - 0x41ff (tiny 4/5), 0x4000 - 0x43ff (tiny 9/10)
+    // §5.2
+    kTiny4IO            =   0x0000, // 0x0000 - 0x003f
+    kTiny4SRAM          =   0x0040, // 0x0040 - 0x005f
+    kTiny4Reserved0     =   0x0060, // 0x0060 - 0x3eff
+    kTiny4NVMLock       =   0x3f00, // 0x3f00 - 0x3f01
+    kTiny4Reserved1     =   0x3f02, // 0x3f02 - 0x3f3f
+    kTiny4Configuration =   0x3f40, // 0x3f40 - 0x3f41
+    kTiny4Reserved2     =   0x3f42, // 0x3f42 - 0x3f7f
+    kTiny4Calibration   =   0x3f80, // 0x3f80 - 0x3f81
+    kTiny4Reserved3     =   0x3f82, // 0x3f82 - 0x3fbf
+    kTiny4DeviceId      =   0x3fc0, // 0x3fc0 - 0x3fc3
+    kTiny4Reserved4     =   0x3fc4, // 0x3fc4 - 0x3fff
+    kTiny4Flash         =   0x4000, // 0x4000 - 0x41ff (tiny 4/5), 0x4000 - 0x43ff (tiny 9/10)
 };
 
 enum ATtinyType {
-	kATtinyUnknown,
+    kATtinyUnknown,
 
-	kATtiny4			=	4,
-	kATtiny5			=	5,
-	kATtiny9			=	9,
-	kATtiny10			=	10,
-	kATtiny20			=	20,
-	kATtiny40			=	40,
+    kATtiny4            =   4,
+    kATtiny5            =   5,
+    kATtiny9            =   9,
+    kATtiny10           =   10,
+    kATtiny20           =   20,
+    kATtiny40           =   40,
 };
 
 enum IntelHexFileType {
-	kIHTypeData			=	0,
-	kIHTypeEOF			=	1,
-	kIHTypeExtSegAddr	=	2,
-	kIHTypeStartSegAddr	=	3,
-	kIHTypeExtLinAddr	=	4,
-	kIHTypeStartLinAddr	=	5,
+    kIHTypeData         =   0,
+    kIHTypeEOF          =   1,
+    kIHTypeExtSegAddr   =   2,
+    kIHTypeStartSegAddr =   3,
+    kIHTypeExtLinAddr   =   4,
+    kIHTypeStartLinAddr =   5,
 };
 
 enum TPICSS {
-	TPIIR				=	0x0f,	// §14.7.1
-	TPIPCR				=	0x02,	// §14.7.2
-	TPISR				=	0x00,	// §14.7.3
+    TPIIR               =   0x0f,   // §14.7.1
+    TPIPCR              =   0x02,   // §14.7.2
+    TPISR               =   0x00,   // §14.7.3
 
-	GT0					=	0x01,	// §14.7.2 guard time bit 0
-	GT1					=	0x02,	// §14.7.2 guard time bit 1
-	GT2					=	0x04,	// §14.7.2 guard time bit 2
-	NVMDisable			=	0x00,	// §14.7.3
-	NVMEnable			=	0x02,	// §14.7.3
-	TPIIdentification	=	0x80,	// §14.7.1
+    GT0                 =   0x01,   // §14.7.2 guard time bit 0
+    GT1                 =   0x02,   // §14.7.2 guard time bit 1
+    GT2                 =   0x04,   // §14.7.2 guard time bit 2
+    NVMDisable          =   0x00,   // §14.7.3
+    NVMEnable           =   0x02,   // §14.7.3
+    TPIIdentification   =   0x80,   // §14.7.1
 };
 
 // §14.5
 enum TPIInstruction {
-	SIN					=	0x10,	// serial in from i/o space
-	SKEY				=	0xe0,	// serial key signaling
-	SLD					=	0x20,	// serial load from data space
-	SLD_postIncrement	=	0x24,	// serial load from data space with post increment
-	SLDCS				=	0x80,	// serial load from control and status space
-	SOUT				=	0x90,	// serial out to i/o space
-	SST					=	0x60,	// serial store to data space
-	SST_postIncrement	=	0x64,	// serial store to data space with post increment
-	SSTCS				=	0xc0,	// serial store to control and status space
-	SSTPR_high			=	0x69,	// serial store to pointer register high byte
-	SSTPR_low			=	0x68,	// serial store to pointer register low byte
+    SIN                 =   0x10,   // serial in from i/o space
+    SKEY                =   0xe0,   // serial key signaling
+    SLD                 =   0x20,   // serial load from data space
+    SLD_postIncrement   =   0x24,   // serial load from data space with post increment
+    SLDCS               =   0x80,   // serial load from control and status space
+    SOUT                =   0x90,   // serial out to i/o space
+    SST                 =   0x60,   // serial store to data space
+    SST_postIncrement   =   0x64,   // serial store to data space with post increment
+    SSTCS               =   0xc0,   // serial store to control and status space
+    SSTPR_high          =   0x69,   // serial store to pointer register high byte
+    SSTPR_low           =   0x68,   // serial store to pointer register low byte
 };
 
 enum TPINVM {
-	NVMCMD				=	0x33,	// §15.7.2
-	NVMCSR				=	0x32,	// §15.7.1
+    NVMCMD              =   0x33,   // §15.7.2
+    NVMCSR              =   0x32,   // §15.7.1
 
-	NVMBusy				=	0x80,	// §15.7.1
-	NVMChipErase		=	0x10,	// §15.7.2
-	NVMNop				=	0x00,	// §15.7.2
-	NVMSectionErase		=	0x14,	// §15.7.2
-	NVMWordWrite		=	0x1d,	// §15.7.2
+    NVMBusy             =   0x80,   // §15.7.1
+    NVMChipErase        =   0x10,   // §15.7.2
+    NVMNop              =   0x00,   // §15.7.2
+    NVMSectionErase     =   0x14,   // §15.7.2
+    NVMWordWrite        =   0x1d,   // §15.7.2
 };
 
-ATtinyType				gATtinyType;
-uint16_t				gTPIPointer;
+ATtinyType              gATtinyType;
+uint16_t                gTPIPointer;
 
-bool tpi_memory_read( uint8_t &data, bool postIncrement = true, bool updateGTPIPointer = true );
-bool tpi_memory_write( uint8_t data, bool postIncrement = true, bool updateGTPIPointer = true );
+bool tpi_memory_read(uint8_t &data, bool postIncrement = true, bool updateGTPIPointer = true);
+bool tpi_memory_write(uint8_t data, bool postIncrement = true, bool updateGTPIPointer = true);
 
 
 uint16_t get_free_memory() {
-  uint16_t				v; 
-  extern uint16_t		__heap_start, *__brkval;
+  uint16_t              v; 
+  extern uint16_t       __heap_start, *__brkval;
 
-  return (uint16_t) &v - ( __brkval ? (uint16_t) &__heap_start : (uint16_t) __brkval );
+  return (uint16_t) &v - (__brkval ? (uint16_t) &__heap_start : (uint16_t) __brkval);
 }
 
 void setup() {
-	tristate_arduino_spi();		// so we can test the tiny at power on
+    tristate_arduino_spi();     // so we can test the tiny at power on
 
-	Serial.begin( 115200 );
+    Serial.begin(115200);
 }
 
 void loop() {
-	Serial.print( F( "Command [d,e,i,m,u,v,?] > " ) );
+    Serial.print(F("Command [d,e,i,m,u,v,?] > "));
 
-	for ( ;; ) {
-		switch ( serial_read() ) {
-			case 'd': case 'D':		tpi_dump_memory();			break;
-			case 'e': case 'E':		tpi_chip_erase();			break;
-			case 'i': case 'I':		tpi_identify_device();		break;
-			case 'm': case 'M':		print_free_memory();		break;
-			case 'u': case 'U':		upload_program();			break;
-			case 'v': case 'V':		print_version();			break;
+    for (;;) {
+        switch (serial_read()) {
+            case 'd': case 'D':     tpi_dump_memory();          break;
+            case 'e': case 'E':     tpi_chip_erase();           break;
+            case 'i': case 'I':     tpi_identify_device();      break;
+            case 'm': case 'M':     print_free_memory();        break;
+            case 'u': case 'U':     upload_program();           break;
+            case 'v': case 'V':     print_version();            break;
 
-			case ' ': case '\t': case '\r': case '\n':			continue;
+            case ' ': case '\t': case '\r': case '\n':          continue;
 
-			default: {
-				Serial.println( F( "Commands:" ) );
-				Serial.println( F( "D: Dump memory" ) );
-				Serial.println( F( "E: Erase memory" ) );
-				Serial.println( F( "I: Identify device" ) );
-				Serial.println( F( "M: Print free memory" ) );
-				Serial.println( F( "U: Upload program" ) );
-				Serial.println( F( "V: Print version" ) );
-				Serial.println( F( "?: Help" ) );
-			} break;
-		}
+            default: {
+                Serial.println(F("Commands:"));
+                Serial.println(F("D: Dump memory"));
+                Serial.println(F("E: Erase memory"));
+                Serial.println(F("I: Identify device"));
+                Serial.println(F("M: Print free memory"));
+                Serial.println(F("U: Upload program"));
+                Serial.println(F("V: Print version"));
+                Serial.println(F("?: Help"));
+            } break;
+        }
 
-		break;
-	}
+        break;
+    }
 }
 
 void print_free_memory() {
-	Serial.print( F( "Free memory: " ) );
-	Serial.print( get_free_memory() );
-	Serial.println( F( " bytes" ) );
+    Serial.print(F("Free memory: "));
+    Serial.print(get_free_memory());
+    Serial.println(F(" bytes"));
 }
 
-void print_hex( uint16_t value, int8_t nibbles ) {
-	while ( --nibbles > 0 ) {
-		if ( value >> nibbles * 4 & 0x0f ) break;		// if msb is != 0
+void print_hex(uint16_t value, int8_t nibbles) {
+    while (--nibbles > 0) {
+        if (value >> nibbles * 4 & 0x0f) break;     // if msb is != 0
 
-		Serial.print( F( "0" ) );
-	}
+        Serial.print(F("0"));
+    }
 
-	Serial.print( value, HEX );
+    Serial.print(value, HEX);
 }
 
 void print_version() {
-	Serial.println( F( "Version 1.0" ) );
+    Serial.println(F("Version 1.0"));
 }
 
 void tristate_arduino_spi() {
-	const uint8_t		kPortBTriState = ~( kPortBSS | kPortBMOSI | kPortBMISO | kPortBSCK );
+    const uint8_t       kPortBTriState = ~(kPortBSS | kPortBMOSI | kPortBMISO | kPortBSCK);
 
-	DDRB &= kPortBTriState;								// tri-state SPI so ATtiny can be tested
-	PORTB &= kPortBTriState;
+    DDRB &= kPortBTriState;                             // tri-state SPI so ATtiny can be tested
+    PORTB &= kPortBTriState;
 }
 
 // I had tons of failures trying to write the ATtiny10 while
@@ -328,497 +328,497 @@ void tristate_arduino_spi() {
 // :00000001FF
 
 void upload_program() {
-	uint16_t			address, w;
-	uint8_t *			buffer = NULL, length, *p, *q, type;
-	bool				success = false;
+    uint16_t            address, w;
+    uint8_t *           buffer = NULL, length, *p, *q, type;
+    bool                success = false;
 
-	// The page size of ATtiny4,5,9,10 is 16 bytes (§15.3.2).
-	// AVRStudio generates Intel .hex files with 16-byte data rows
-	// in most cases, though they can be smaller.  The buffer allocation
-	// here is wide enough to receive 64 rows of 16 bytes each, plus
-	// a length byte and an address word, which would be what AVRStudio
-	// should output if all 1024 bytes of the ATtiny9,10 memory is filled.
-	// I don't expect this to overrun in most cases but it is possible if
-	// somehow the .hex file contains lots of smaller-than-page-sized rows.
-	// In that case I recommend writing a small python script or similar
-	// to preprocess the .hex file and convert it into longer rows.
-	// The Intel hex file format is here:
-	// https://en.wikipedia.org/wiki/Intel_HEX
+    // The page size of ATtiny4,5,9,10 is 16 bytes (§15.3.2).
+    // AVRStudio generates Intel .hex files with 16-byte data rows
+    // in most cases, though they can be smaller.  The buffer allocation
+    // here is wide enough to receive 64 rows of 16 bytes each, plus
+    // a length byte and an address word, which would be what AVRStudio
+    // should output if all 1024 bytes of the ATtiny9,10 memory is filled.
+    // I don't expect this to overrun in most cases but it is possible if
+    // somehow the .hex file contains lots of smaller-than-page-sized rows.
+    // In that case I recommend writing a small python script or similar
+    // to preprocess the .hex file and convert it into longer rows.
+    // The Intel hex file format is here:
+    // https://en.wikipedia.org/wiki/Intel_HEX
 
-	if ( ! ( p = buffer = (uint8_t *) malloc( 64 * ( 1 + 2 + 16 ) ) ) ) {
-		Serial.println( "Could not allocate enough memory" );
-		goto done;
-	}
+    if (! (p = buffer = (uint8_t *) malloc(64 * (1 + 2 + 16)))) {
+        Serial.println("Could not allocate enough memory");
+        goto done;
+    }
 
-	Serial.println( F( "Upload hex file content to serial monitor" ) );
+    Serial.println(F("Upload hex file content to serial monitor"));
 
-	do {
-		while ( serial_read() != ':' ) ;
+    do {
+        while (serial_read() != ':') ;
 
-		length = serial_decode_byte();
-		address = (uint16_t) serial_decode_byte() << 8;
-		address |= serial_decode_byte();
-		type = serial_decode_byte();
+        length = serial_decode_byte();
+        address = (uint16_t) serial_decode_byte() << 8;
+        address |= serial_decode_byte();
+        type = serial_decode_byte();
 
-		if ( length ) {
-			if ( type == kIHTypeData ) {
-				*p++ = length;
-				*p++ = address >> 8 & 0xff;
-				*p++ = address & 0xff;
+        if (length) {
+            if (type == kIHTypeData) {
+                *p++ = length;
+                *p++ = address >> 8 & 0xff;
+                *p++ = address & 0xff;
 
-				while ( length-- ) *p++ = serial_decode_byte();
-			} else {
-				while ( length-- ) serial_decode_byte();
-			}
-		}
+                while (length--) *p++ = serial_decode_byte();
+            } else {
+                while (length--) serial_decode_byte();
+            }
+        }
 
-		serial_decode_byte();			// consume checksum
-	} while ( type != kIHTypeEOF );
+        serial_decode_byte();           // consume checksum
+    } while (type != kIHTypeEOF);
 
-	Serial.println( F( "Upload complete" ) );
+    Serial.println(F("Upload complete"));
 
-	tpi_chip_erase();
+    tpi_chip_erase();
 
-	Serial.println( F( "Writing flash" ) );
+    Serial.println(F("Writing flash"));
 
-	tpi_enable();
+    tpi_enable();
 
-	for ( q = buffer; q < p; ) {
-		length = *q++;
-		address = (uint16_t) *q++ << 8;
-		address |= *q++;
+    for (q = buffer; q < p;) {
+        length = *q++;
+        address = (uint16_t) *q++ << 8;
+        address |= *q++;
 
-		print_hex( length, 2 );
-		Serial.print( F( " ") );
-		print_hex( address, 4 );
-		Serial.print( F( " ") );
+        print_hex(length, 2);
+        Serial.print(F(" "));
+        print_hex(address, 4);
+        Serial.print(F(" "));
 
-		address |= kTiny4Flash;
+        address |= kTiny4Flash;
 
-		if ( address & 1 ) {
-			address &= ~1;
-			print_hex( *q, 2 );
-			w = 0xff00 | *q++;
-			if ( ! tpi_memory_write_word( address, w ) ) goto done;
-			address += 2; 
-			--length;
-		}
-		for ( ; length > 1; address += 2, length -= 2 ) {
-			print_hex( *q, 2 );
-			w = (uint16_t) *q++ << 8;
-			print_hex( *q, 2 );
-			w |= *q++;
-			if ( ! tpi_memory_write_word( address, w ) ) goto done;
-		}
-		if ( length ) {
-			print_hex( *q, 2 );
-			w = (uint16_t) *q++ << 8 | 0xffu;
-			if ( ! tpi_memory_write_word( address, w ) ) goto done;
-		}
+        if (address & 1) {
+            address &= ~1;
+            print_hex(*q, 2);
+            w = 0xff00 | *q++;
+            if (! tpi_memory_write_word(address, w)) goto done;
+            address += 2; 
+            --length;
+        }
+        for (; length > 1; address += 2, length -= 2) {
+            print_hex(*q, 2);
+            w = (uint16_t) *q++ << 8;
+            print_hex(*q, 2);
+            w |= *q++;
+            if (! tpi_memory_write_word(address, w)) goto done;
+        }
+        if (length) {
+            print_hex(*q, 2);
+            w = (uint16_t) *q++ << 8 | 0xffu;
+            if (! tpi_memory_write_word(address, w)) goto done;
+        }
 
-		Serial.println( F( " OK" ) );
-	}
+        Serial.println(F(" OK"));
+    }
 
-	Serial.println( F( "Done" ) );
+    Serial.println(F("Done"));
 
-	success = true;
+    success = true;
 
 done:
 
-	if ( ! success ) Serial.println( F( "Upload to ATtiny failed" ) );
+    if (! success) Serial.println(F("Upload to ATtiny failed"));
 
-	if ( buffer ) free( buffer );
+    if (buffer) free(buffer);
 
-	tpi_disable();
+    tpi_disable();
 }
 
 uint8_t serial_decode_byte() {
-	uint8_t				b0, b1;
+    uint8_t             b0, b1;
 
-	b0 = serial_read();
-	b1 = serial_read();
+    b0 = serial_read();
+    b1 = serial_read();
 
-	return unhex( b0, b1 );
+    return unhex(b0, b1);
 }
 
 uint8_t serial_read() {
-	while ( Serial.available() < 1 ) ;
+    while (Serial.available() < 1) ;
 
-	return Serial.read();
+    return Serial.read();
 }
 
 // converts two chars hexadecimal characters to the byte they represent
-uint8_t unhex( uint8_t high, uint8_t low ) {
-	uint8_t				b;
+uint8_t unhex(uint8_t high, uint8_t low) {
+    uint8_t             b;
 
-	b = ( high >= '0' && high <= '9' ? high - '0' : ( high & ~0x20 ) - 'A' + 0xa ) << 4;
-	b |= low >= '0' && low <= '9' ? low - '0' : ( low & ~0x20 ) - 'A' + 0xa;
+    b = (high >= '0' && high <= '9' ? high - '0' : (high & ~0x20) - 'A' + 0xa) << 4;
+    b |= low >= '0' && low <= '9' ? low - '0' : (low & ~0x20) - 'A' + 0xa;
 
-	return b;
+    return b;
 }
 
 // ATtiny TPI (Tiny Programming Interface) (§14 pp. 95+)
 
 bool tpi_chip_erase() {
-	tpi_enable();
+    tpi_enable();
 
-	// §15.4.3.1
-	// 1. write the CHIP_ERASE command to the NVMCMD register:
-	tpi_io_write( NVMCMD, NVMChipErase );
+    // §15.4.3.1
+    // 1. write the CHIP_ERASE command to the NVMCMD register:
+    tpi_io_write(NVMCMD, NVMChipErase);
 
-	// 2. Start the erase operation by writing a dummy byte to
-	// the high byte of any word location inside the code section
-	tpi_set_pointer( kTiny4Flash + 1 );
-	tpi_memory_write( 0x1 );
+    // 2. Start the erase operation by writing a dummy byte to
+    // the high byte of any word location inside the code section
+    tpi_set_pointer(kTiny4Flash + 1);
+    tpi_memory_write(0x1);
 
-	// 3. Wait until the NVMBSY bit has been cleared
-	if ( tpi_nvm_wait() ) Serial.println( F( "Chip erased" ) );
-	else Serial.println( F( "Chip erase failed" ) );
+    // 3. Wait until the NVMBSY bit has been cleared
+    if (tpi_nvm_wait()) Serial.println(F("Chip erased"));
+    else Serial.println(F("Chip erase failed"));
 
-	tpi_disable();
+    tpi_disable();
 }
 
-bool tpi_css_read( uint8_t address, uint8_t &data ) {
-	// §14.5.6
-	tpi_serial_write( SLDCS | address );
+bool tpi_css_read(uint8_t address, uint8_t &data) {
+    // §14.5.6
+    tpi_serial_write(SLDCS | address);
 
-	return tpi_serial_read( data );
+    return tpi_serial_read(data);
 }
 
-void tpi_css_write( uint8_t address, uint8_t data ) {
-	// §14.5.7
-	tpi_serial_write( SSTCS | address );
-	tpi_serial_write( data );
+void tpi_css_write(uint8_t address, uint8_t data) {
+    // §14.5.7
+    tpi_serial_write(SSTCS | address);
+    tpi_serial_write(data);
 }
 
 void tpi_disable() {
-	tpi_css_write( TPISR, NVMDisable );
+    tpi_css_write(TPISR, NVMDisable);
 
-	digitalWrite( SS, HIGH );							// release RESET
-	delay( 1 );											// tRST min = 400 ns @ Vcc = 5 V
+    digitalWrite(SS, HIGH);                         // release RESET
+    delay(1);                                       // tRST min = 400 ns @ Vcc = 5 V
 
-	SPI.end();
+    SPI.end();
 
-	tristate_arduino_spi();
+    tristate_arduino_spi();
 }
 
 void tpi_dump_memory() {
-	uint8_t				b, i;
-	uint16_t			flashEnd;
+    uint8_t             b, i;
+    uint16_t            flashEnd;
 
-	tpi_identify_device();
+    tpi_identify_device();
 
-	tpi_enable();
-	tpi_set_pointer( kTiny4IO );
+    tpi_enable();
+    tpi_set_pointer(kTiny4IO);
 
-	switch ( gATtinyType ) {
-		case kATtiny4:
-		case kATtiny5:		flashEnd = 0x0200;		break;
-		case kATtiny9:
-		case kATtiny10:		flashEnd = 0x0400;		break;
-		case kATtiny20:		flashEnd = 0x0800;		break;
-		case kATtiny40:		flashEnd = 0x1000;		break;
-	}
+    switch (gATtinyType) {
+        case kATtiny4:
+        case kATtiny5:      flashEnd = 0x0200;      break;
+        case kATtiny9:
+        case kATtiny10:     flashEnd = 0x0400;      break;
+        case kATtiny20:     flashEnd = 0x0800;      break;
+        case kATtiny40:     flashEnd = 0x1000;      break;
+    }
 
-	flashEnd += kTiny4Flash;
+    flashEnd += kTiny4Flash;
 
-	while ( gTPIPointer < flashEnd ) {
-		if ( ! tpi_memory_read( b, true, false ) ) {
-			Serial.println( F( "Failed to read memory" ) );
-			goto done;
-		}
+    while (gTPIPointer < flashEnd) {
+        if (! tpi_memory_read(b, true, false)) {
+            Serial.println(F("Failed to read memory"));
+            goto done;
+        }
 
-		// read all the memory, but only print
-		// the register, SRAM, config and signature memory
-		if (
-			gTPIPointer >= kTiny4IO && gTPIPointer < kTiny4Reserved0 ||
-			gTPIPointer >= kTiny4NVMLock && gTPIPointer < kTiny4Reserved1 ||
-			gTPIPointer >= kTiny4Configuration && gTPIPointer < kTiny4Reserved2 ||
-			gTPIPointer >= kTiny4Calibration && gTPIPointer < kTiny4Reserved3 ||
-			gTPIPointer >= kTiny4DeviceId && gTPIPointer < kTiny4Reserved4 ||
-			gTPIPointer >= kTiny4Flash && gTPIPointer < flashEnd )
-		{
-			if (
-				gTPIPointer == kTiny4IO ||
-				gTPIPointer == kTiny4NVMLock ||
-				gTPIPointer == kTiny4Configuration ||
-				gTPIPointer == kTiny4Calibration ||
-				gTPIPointer == kTiny4DeviceId ||
-				gTPIPointer == kTiny4Flash )
-			{
-				if ( gTPIPointer != kTiny4IO ) {
-					Serial.println( F( "" ) );
-					Serial.println( F( "" ) );
-				}
+        // read all the memory, but only print
+        // the register, SRAM, config and signature memory
+        if (
+            gTPIPointer >= kTiny4IO && gTPIPointer < kTiny4Reserved0 ||
+            gTPIPointer >= kTiny4NVMLock && gTPIPointer < kTiny4Reserved1 ||
+            gTPIPointer >= kTiny4Configuration && gTPIPointer < kTiny4Reserved2 ||
+            gTPIPointer >= kTiny4Calibration && gTPIPointer < kTiny4Reserved3 ||
+            gTPIPointer >= kTiny4DeviceId && gTPIPointer < kTiny4Reserved4 ||
+            gTPIPointer >= kTiny4Flash && gTPIPointer < flashEnd)
+        {
+            if (
+                gTPIPointer == kTiny4IO ||
+                gTPIPointer == kTiny4NVMLock ||
+                gTPIPointer == kTiny4Configuration ||
+                gTPIPointer == kTiny4Calibration ||
+                gTPIPointer == kTiny4DeviceId ||
+                gTPIPointer == kTiny4Flash)
+            {
+                if (gTPIPointer != kTiny4IO) {
+                    Serial.println(F(""));
+                    Serial.println(F(""));
+                }
 
-				if ( gTPIPointer == kTiny4IO ) Serial.println( F( "Registers, SRAM:" ) );
-				else if ( gTPIPointer == kTiny4NVMLock ) Serial.println( F( "NVM Lock:" ) );
-				else if ( gTPIPointer == kTiny4Configuration ) Serial.println( F( "Configuration:" ) );
-				else if ( gTPIPointer == kTiny4Calibration ) Serial.println( F( "Calibration:" ) );
-				else if ( gTPIPointer == kTiny4DeviceId ) Serial.println( F( "Device ID:" ) );
-				else if ( gTPIPointer == kTiny4Flash ) Serial.println( F( "Flash:" ) );
+                if (gTPIPointer == kTiny4IO) Serial.println(F("Registers, SRAM:"));
+                else if (gTPIPointer == kTiny4NVMLock) Serial.println(F("NVM Lock:"));
+                else if (gTPIPointer == kTiny4Configuration) Serial.println(F("Configuration:"));
+                else if (gTPIPointer == kTiny4Calibration) Serial.println(F("Calibration:"));
+                else if (gTPIPointer == kTiny4DeviceId) Serial.println(F("Device ID:"));
+                else if (gTPIPointer == kTiny4Flash) Serial.println(F("Flash:"));
 
-				Serial.println( F( "" ) );
+                Serial.println(F(""));
 
-				for ( i = 0; i < 5; ++i ) Serial.print( F( " " ) );
-				for ( i = 0; i < 16; ++i ) {
-					Serial.print( F( " +" ) );
-					Serial.print( i, HEX );
-				}
-			}
-			if ( ! ( gTPIPointer & 0x000f ) ) {
-				Serial.println( F( "" ) );
-				print_hex( gTPIPointer, 4 );
-				Serial.print( F( ": " ) );
-			}
-			print_hex( b, 2 );
-			Serial.print( F( " " ) );
-		}
+                for (i = 0; i < 5; ++i) Serial.print(F(" "));
+                for (i = 0; i < 16; ++i) {
+                    Serial.print(F(" +"));
+                    Serial.print(i, HEX);
+                }
+            }
+            if (! (gTPIPointer & 0x000f)) {
+                Serial.println(F(""));
+                print_hex(gTPIPointer, 4);
+                Serial.print(F(": "));
+            }
+            print_hex(b, 2);
+            Serial.print(F(" "));
+        }
 
-		++gTPIPointer;
+        ++gTPIPointer;
 
-		if ( gTPIPointer == kTiny4Reserved0 ) tpi_set_pointer( kTiny4NVMLock );
-	}
+        if (gTPIPointer == kTiny4Reserved0) tpi_set_pointer(kTiny4NVMLock);
+    }
 
-	Serial.println( F( "" ) );
+    Serial.println(F(""));
 
 done:
 
-	tpi_disable();
+    tpi_disable();
 }
 
 bool tpi_enable() {
-	uint8_t				data;
-	uint64_t			nvmKey = 0x1289ab45cdd888ffull;	// §14.6
+    uint8_t             data;
+    uint64_t            nvmKey = 0x1289ab45cdd888ffull; // §14.6
 
-	// §14.3.1, p. 96, enable TPI
+    // §14.3.1, p. 96, enable TPI
 
-	SPI.begin();
-	SPI.setBitOrder( LSBFIRST );
-	SPI.setDataMode( SPI_MODE0 );
-	SPI.setClockDivider( SPI_CLOCK_DIV16 );				// §16.8 2MHz maximum serial programming frequency
-														// I'm using Arduino Nano (16MHz), so set serial clock to 1MHz
+    SPI.begin();
+    SPI.setBitOrder(LSBFIRST);
+    SPI.setDataMode(SPI_MODE0);
+    SPI.setClockDivider(SPI_CLOCK_DIV16);           // §16.8 2MHz maximum serial programming frequency
+                                                    // I'm using Arduino Nano (16MHz), so set serial clock to 1MHz
 
-	digitalWrite( SS, LOW );							// assert RESET on tiny
-	delay( 1 );											// §16.5 tRST min = 400ns @ Vcc = 5 V
+    digitalWrite(SS, LOW);                          // assert RESET on tiny
+    delay(1);										// §16.5 tRST min = 400ns @ Vcc = 5 V
 
-	SPI.transfer( 0xff );								// activate TPI by emitting
-	SPI.transfer( 0xff );								// 16 or more pulses on TPICLK
-														// while holding TPIDATA to "1"
+    SPI.transfer(0xff);                             // activate TPI by emitting
+    SPI.transfer(0xff);                             // 16 or more pulses on TPICLK
+                                                    // while holding TPIDATA to "1"
 
-	// §14.7.2
-	tpi_css_write( TPIPCR, GT2 );						// TPIPCR, guard time = 8 idle bits (default=128)
+    // §14.7.2
+    tpi_css_write(TPIPCR, GT2);                     // TPIPCR, guard time = 8 idle bits (default=128)
 
-	tpi_serial_write( SKEY );							// enable NVM
-	do { tpi_serial_write( nvmKey & 0xff ); } while ( nvmKey >>= 8 );
-	
-	// §14.7.3 wait for NVM to enable
-	do {
-		if ( ! tpi_css_read( TPISR, data ) ) {
-			Serial.println( F( "Failed to enable TPI" ) );
-			return false;
-		}
-	} while ( ! data );
+    tpi_serial_write(SKEY);                         // enable NVM
+    do { tpi_serial_write(nvmKey & 0xff); } while (nvmKey >>= 8);
+    
+    // §14.7.3 wait for NVM to enable
+    do {
+        if (! tpi_css_read(TPISR, data)) {
+            Serial.println(F("Failed to enable TPI"));
+            return false;
+        }
+    } while (! data);
 
-	return true;
+    return true;
 }
 
 bool tpi_identify_device() {
-	uint8_t				b0, b1, b2;
+    uint8_t             b0, b1, b2;
 
-	gATtinyType = kATtinyUnknown;
+    gATtinyType = kATtinyUnknown;
 
-	tpi_enable();
-	tpi_set_pointer( kTiny4DeviceId );
+    tpi_enable();
+    tpi_set_pointer(kTiny4DeviceId);
 
-	if ( ! tpi_memory_read( b0 ) ) goto done;
-	if ( ! tpi_memory_read( b1 ) ) goto done;
-	if ( ! tpi_memory_read( b2 ) ) goto done;
+    if (! tpi_memory_read(b0)) goto done;
+    if (! tpi_memory_read(b1)) goto done;
+    if (! tpi_memory_read(b2)) goto done;
 
-	// §15.3.4
-	if ( b0 == 0x1e ) {
-		switch ( b1 ) {
-			case 0x8f: {
-				switch ( b2 ) {
-					case 0x0a:		gATtinyType = kATtiny4;		break;
-					case 0x09:		gATtinyType = kATtiny5;		break;
-				}
-			} break;
+    // §15.3.4
+    if (b0 == 0x1e) {
+        switch (b1) {
+            case 0x8f: {
+                switch (b2) {
+                    case 0x0a:      gATtinyType = kATtiny4;     break;
+                    case 0x09:      gATtinyType = kATtiny5;     break;
+                }
+            } break;
 
-			case 0x90: {
-				switch ( b2 ) {
-					case 0x08:		gATtinyType = kATtiny9;		break;
-					case 0x03:		gATtinyType = kATtiny10;	break;
-				}
-			} break;
+            case 0x90: {
+                switch (b2) {
+                    case 0x08:      gATtinyType = kATtiny9;     break;
+                    case 0x03:      gATtinyType = kATtiny10;    break;
+                }
+            } break;
 
-			case 0x91: {
-				switch ( b2 ) {
-					case 0x0f:		gATtinyType = kATtiny20;	break;
-				}
-			} break;
+            case 0x91: {
+                switch (b2) {
+                    case 0x0f:      gATtinyType = kATtiny20;    break;
+                }
+            } break;
 
-			case 0x92: {
-				switch ( b2 ) {
-					case 0x0e:		gATtinyType = kATtiny40;	break;
-				}
-			} break;
-		}
-	}
+            case 0x92: {
+                switch (b2) {
+                    case 0x0e:      gATtinyType = kATtiny40;    break;
+                }
+            } break;
+        }
+    }
 
-	if ( gATtinyType ) {
-		Serial.print( F( "ATtiny" ) );
-		Serial.print( gATtinyType );
-		Serial.println( F( " connected" ) );
-	} else {
-		Serial.println( F( "Unable to identify device" ) );
-	}
+    if (gATtinyType) {
+        Serial.print(F("ATtiny"));
+        Serial.print(gATtinyType);
+        Serial.println(F(" connected"));
+    } else {
+        Serial.println(F("Unable to identify device"));
+    }
 
 done:
 
-	tpi_disable();
+    tpi_disable();
 
-	return gATtinyType != kATtinyUnknown;
+    return gATtinyType != kATtinyUnknown;
 }
 
-bool tpi_io_read( uint8_t address, uint8_t &data ) {
-	// §14.5.4 SIN 0b0aa1aaaa replace a with 6 address bits
-	tpi_serial_write( SIN | ( address & 0x30 ) << 1 | address & 0x0f );
+bool tpi_io_read(uint8_t address, uint8_t &data) {
+    // §14.5.4 SIN 0b0aa1aaaa replace a with 6 address bits
+    tpi_serial_write(SIN | (address & 0x30) << 1 | address & 0x0f);
 
-	return tpi_serial_read( data );
+    return tpi_serial_read(data);
 }
 
-void tpi_io_write( uint8_t address, uint8_t data ) {
-	// §14.5.5 SOUT 0b1aa1aaaa replace a with 6 address bits
-	tpi_serial_write( SOUT | ( address & 0x30 ) << 1 | address & 0x0f );
-	tpi_serial_write( data );
+void tpi_io_write(uint8_t address, uint8_t data) {
+    // §14.5.5 SOUT 0b1aa1aaaa replace a with 6 address bits
+    tpi_serial_write(SOUT | (address & 0x30) << 1 | address & 0x0f);
+    tpi_serial_write(data);
 }
 
 // read memory indirectly.  must call tpi_set_pointer() first
-bool tpi_memory_read( uint8_t &data, bool postIncrement, bool updateGTPIPointer ) {
-	tpi_serial_write( postIncrement ? SLD_postIncrement : SLD );
+bool tpi_memory_read(uint8_t &data, bool postIncrement, bool updateGTPIPointer) {
+    tpi_serial_write(postIncrement ? SLD_postIncrement : SLD);
 
-	if ( tpi_serial_read( data ) ) {
-		if ( postIncrement && updateGTPIPointer ) ++gTPIPointer;
-		return true;
-	}
+    if (tpi_serial_read(data)) {
+        if (postIncrement && updateGTPIPointer) ++gTPIPointer;
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 // write memory indirectly.  must call tpi_set_pointer() first
-bool tpi_memory_write( uint8_t data, bool postIncrement, bool updateGTPIPointer ) {
-	tpi_serial_write( postIncrement ? SST_postIncrement : SST );
-	tpi_serial_write( data );
+bool tpi_memory_write(uint8_t data, bool postIncrement, bool updateGTPIPointer) {
+    tpi_serial_write(postIncrement ? SST_postIncrement : SST);
+    tpi_serial_write(data);
 
-	if ( postIncrement && updateGTPIPointer ) ++gTPIPointer;
+    if (postIncrement && updateGTPIPointer) ++gTPIPointer;
 }
 
-bool tpi_memory_write_word( uint16_t address, uint16_t data ) {
-	tpi_io_write( NVMCMD, NVMWordWrite );
+bool tpi_memory_write_word(uint16_t address, uint16_t data) {
+    tpi_io_write(NVMCMD, NVMWordWrite);
 
-	tpi_set_pointer( address );
-	tpi_memory_write( data >> 8 & 0xff );
-	tpi_memory_write( data & 0xff );
+    tpi_set_pointer(address);
+    tpi_memory_write(data >> 8 & 0xff);
+    tpi_memory_write(data & 0xff);
 
-	if ( ! tpi_nvm_wait() ) {
-		Serial.println( F( "tpi_memory_write_word() failed" ) );
-		return false;
-	}
+    if (! tpi_nvm_wait()) {
+        Serial.println(F("tpi_memory_write_word() failed"));
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 bool tpi_nvm_wait() {
-	uint8_t				b;
+    uint8_t             b;
 
-	do {
-		if ( ! tpi_io_read( NVMCSR, b ) ) return false;
-	} while ( b & NVMBusy );
+    do {
+        if (! tpi_io_read(NVMCSR, b)) return false;
+    } while (b & NVMBusy);
 
-	return true;
+    return true;
 }
 
 // read TPI 12-bit format byte data via SPI
 // 2 bytes (16 clocks) or 3 bytes (24 clocks)
-bool tpi_serial_read( uint8_t &data ) {
-	uint8_t				b0, b1;
+bool tpi_serial_read(uint8_t &data) {
+    uint8_t             b0, b1;
 
-	// keep transmitting high(idle) while waiting for a start bit
-	while ( ( b0 = SPI.transfer( 0xff ) ) == 0xff ) ;
+    // keep transmitting high(idle) while waiting for a start bit
+    while ((b0 = SPI.transfer(0xff)) == 0xff) ;
 
-	// get (partial) data bits
-	b1 = SPI.transfer( 0xff );
+    // get (partial) data bits
+    b1 = SPI.transfer(0xff);
 
-	// if the first byte(b0) contains less than 4 data bits
-	// we need to get a third byte to get the parity and stop bits
-	if ( ( b0 & 0x0f ) == 0x0f ) SPI.transfer( 0xff );
+    // if the first byte(b0) contains less than 4 data bits
+    // we need to get a third byte to get the parity and stop bits
+    if ((b0 & 0x0f) == 0x0f) SPI.transfer(0xff);
 
-	// b0 should hold only idle and start bits = 0b01111111
-	// if it doesn't, shift (b1|b0) left until it does.
-	// bd 2014.09.26: b0 == 0xff will cause an infinite loop, so test for it
-	if ( b0 == 0xff ) {
-		Serial.println( F( "tpi_serial_read() got bad data" ) );
-		return false;
-	}
-	while ( b0 != 0x7f ) {
-		b1 <<= 1;
-		if ( b0 & 0x80 ) b1 |= 1;
-		b0 <<= 1;
-		b0 |= 1;									// fill with idle bit
-	}
+    // b0 should hold only idle and start bits = 0b01111111
+    // if it doesn't, shift (b1|b0) left until it does.
+    // bd 2014.09.26: b0 == 0xff will cause an infinite loop, so test for it
+    if (b0 == 0xff) {
+        Serial.println(F("tpi_serial_read() got bad data"));
+        return false;
+    }
+    while (b0 != 0x7f) {
+        b1 <<= 1;
+        if (b0 & 0x80) b1 |= 1;
+        b0 <<= 1;
+        b0 |= 1;                                    // fill with idle bit
+    }
 
-	// now the data byte is stored in b1
-	data = b1;
+    // now the data byte is stored in b1
+    data = b1;
 
-	return true;
+    return true;
 }
 
 // Send a byte in one TPI frame (12 bits: 1 start + 8 data + 1 parity + 2 stop)
 // using 2 SPI data bytes (2 x 8 = 16 clocks) with 4 extra idle bits
-void tpi_serial_write( uint8_t data ) {
-	// compute parity bit
-	uint8_t				parity = data;
+void tpi_serial_write(uint8_t data) {
+    // compute parity bit
+    uint8_t             parity = data;
 
-	// §14.3.4 p. 97
-	// even parity function is:
-	// d0 ^ d1 ^ d2 ^ d3 ^ d4 ^ d5 ^ d6 ^ d7 ^ 0
+    // §14.3.4 p. 97
+    // even parity function is:
+    // d0 ^ d1 ^ d2 ^ d3 ^ d4 ^ d5 ^ d6 ^ d7 ^ 0
 
-	// due to commutativity, this becomes:
-	// d0 ^ d4 ^ d1 ^ d5 ^ d2 ^ d6 ^ d3 ^ d7 ^ 0
-	// due to associativity, this becomes:
-	// ( d0 ^ d4 ) ^ ( d1 ^ d5 ) ^ ( d2 ^ d6 ) ^ ( d3 ^ d7 ) ^ 0
-	parity ^= ( parity >> 4 );		// b[7:4] ^ b[3:0]
-	// which yields:
-	// d0 ^ d1 ^ d2 ^ d3 ^ 0
-	// due to commutativity:
-	// d0 ^ d2 ^ d1 ^ d3 ^ 0
-	// due to associativity:
-	// ( d0 ^ d2 ) ^ ( d1 ^ d3 ) ^ 0
-	parity ^= ( parity >> 2 );		// b[3:2] ^ b[1:0]
-	// which yields:
-	// d0 ^ d1 ^ 0
-	// due to associativity:
-	// ( d0 ^ d1 ) ^ 0
-	parity ^= ( parity >> 1 );		// b[1] ^ b[0]
-	// which yields:
-	// d0 ^ 0
-	// which yields parity bit in d0
+    // due to commutativity, this becomes:
+    // d0 ^ d4 ^ d1 ^ d5 ^ d2 ^ d6 ^ d3 ^ d7 ^ 0
+    // due to associativity, this becomes:
+    // (d0 ^ d4) ^ (d1 ^ d5) ^ (d2 ^ d6) ^ (d3 ^ d7) ^ 0
+    parity ^= (parity >> 4);        // b[7:4] ^ b[3:0]
+    // which yields:
+    // d0 ^ d1 ^ d2 ^ d3 ^ 0
+    // due to commutativity:
+    // d0 ^ d2 ^ d1 ^ d3 ^ 0
+    // due to associativity:
+    // (d0 ^ d2) ^ (d1 ^ d3) ^ 0
+    parity ^= (parity >> 2);        // b[3:2] ^ b[1:0]
+    // which yields:
+    // d0 ^ d1 ^ 0
+    // due to associativity:
+    // (d0 ^ d1) ^ 0
+    parity ^= (parity >> 1);        // b[1] ^ b[0]
+    // which yields:
+    // d0 ^ 0
+    // which yields parity bit in d0
 
-	// TPI transmits data in LSBfirst mode and idle is high
-	// 2 idle(high) + 1 start bit(low) + data[4:0]
-	SPI.transfer( 0x03 | data << 3 );
+    // TPI transmits data in LSBfirst mode and idle is high
+    // 2 idle(high) + 1 start bit(low) + data[4:0]
+    SPI.transfer(0x03 | data << 3);
 
-	// data[7:5] + 1 parity + 2 stop bits(high) + 2 idle(high)
-	SPI.transfer( 0xf0 | parity << 3 | data >> 5 );
+    // data[7:5] + 1 parity + 2 stop bits(high) + 2 idle(high)
+    SPI.transfer(0xf0 | parity << 3 | data >> 5);
 }
 
-void tpi_set_pointer( unsigned short address ) {
-	// §14.5.3
-	tpi_serial_write( SSTPR_low );
-	tpi_serial_write( address & 0xff );
-	tpi_serial_write( SSTPR_high );
-	tpi_serial_write( address >> 8 & 0xff );
+void tpi_set_pointer(unsigned short address) {
+    // §14.5.3
+    tpi_serial_write(SSTPR_low);
+    tpi_serial_write(address & 0xff);
+    tpi_serial_write(SSTPR_high);
+    tpi_serial_write(address >> 8 & 0xff);
 
-	gTPIPointer = address;
+    gTPIPointer = address;
 }
