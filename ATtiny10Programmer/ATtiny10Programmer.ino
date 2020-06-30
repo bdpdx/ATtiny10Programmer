@@ -600,7 +600,7 @@ bool tpi_enable() {
                                                     // I'm using Arduino Nano (16MHz), so set serial clock to 1MHz
 
     digitalWrite(SS, LOW);                          // assert RESET on tiny
-    delay(1);										// §16.5 tRST min = 400ns @ Vcc = 5 V
+    delay(1);                                       // §16.5 tRST min = 400ns @ Vcc = 5 V
 
     SPI.transfer(0xff);                             // activate TPI by emitting
     SPI.transfer(0xff);                             // 16 or more pulses on TPICLK
