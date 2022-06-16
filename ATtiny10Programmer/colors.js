@@ -15,6 +15,10 @@ render this on the following html page:
 </body>
 </html>
 
+uses jQuery 2.1.0
+
+https://jsfiddle.net/bdpdx/16bmnzn8/25/
+
 */
 
 var content = '', log = '';
